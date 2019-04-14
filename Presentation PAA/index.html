@@ -133,6 +133,48 @@
         </section>
 
         <section>
+          <section>
+            <h2 class="title-slide"> Busca em largura? </h2>
+          </section>
+          <section>
+            <h2> ALGORITMO DE Dijkstra </h2>
+            <div class="blockquote">
+              <ul>
+                <li> Criado no ano de 1956 por Edsger Dijkstra, porém só foi publicado no ano de 1959; </li>
+                <li> Algoritmo de Dijkstra calcula o caminho mais curto num grafo dirigido ou não dirigido de peso não negativo; </li>
+                <li> Utiliza o peso das arestas para o cálculo; </li>
+                <li> Tem O(m + n log n) onde m é o número de arestas e n o número de vértices; </li>
+              </ul>
+            </div>
+          </section>
+          <section>
+            <div class="blockquote">
+              <h2> Seja G(V,A) um grafo orientado e s um vértice de G: </h2>
+              <ol>
+                <li> Atribua valor zero à estimativa do custo mínimo do vértice s (a raiz da busca) e infinito às demais estimativas; </li>
+                <li> Atribua um valor qualquer aos precedentes (o precedente de um vértice t é o vértice que precede t no caminho de custo mínimo de s para t); </li>
+                <li>  
+                    Enquanto houver vértice aberto:
+                    <ul>
+                      <li> seja k um vértice ainda aberto cuja estimativa seja a menor dentre todos os vértices abertos; </li>
+                      <li> feche o vértice k </li>
+                      <li>
+                        Para todo vértice j ainda aberto que seja sucessor de k faça:
+                        <ul>
+                          <li> some a estimativa do vértice k com o custo do arco que une k a j; </li>
+                          <li> caso esta soma seja melhor que a estimativa anterior para o vértice j, substitua-a e anote k como precedente de j. </li>
+                        </ul>
+                      </li>
+                    </ul>
+                </li>
+              </ol>
+            </div>
+          </section>
+          
+        </section>
+        
+
+        <section>
           <h2 class="title-slide"> Como o Algoritmo funciona? </h2>
         </section>
 
@@ -765,7 +807,11 @@
           </div>
         </section>
 
-        <section> imagem da página 33, ajeitar e colocar </section>
+        <section>
+          <img data-src="img/6.png" style="border: #ffffff Solid 10px;">
+        </section>
+
+        <!-- <section> imagem da página 33, ajeitar e colocar </section> -->
 
         <section>
           <table>
@@ -843,7 +889,7 @@
         </section>
 
         <section>
-          <img data-src="img/4.png" style="border: #ffffff Solid 10px;">
+          <img data-src="img/5.png" style="border: #ffffff Solid 10px;">
         </section>
 
         <!-- biography  -->
