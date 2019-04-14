@@ -1,0 +1,872 @@
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./revealjs/css/reveal.css">
+    <link rel="stylesheet" href="./revealjs/css/theme/white.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <title> Dijkstra </title>
+    <style media="screen">
+      .title{
+        text-align: justify;
+      }
+  
+      .title-slide{
+        text-transform: none !important;
+      }
+
+      .panel{
+        background-color: rgb(228, 228, 237);
+        padding: 20px !important;
+        border-radius: 10px;
+      }
+
+      .style-image{
+        border-style: none !important;
+        box-shadow: none !important;
+        background-color: transparent !important;
+        box-shadow: -2px 5px 20px #333 !important;
+      }
+
+      .subtitle{
+        padding-left: 15px !important;
+        border-left: 2px black solid !important;
+      }
+      
+      .box-blockquote{
+        text-align: justify !important;
+        padding-left: 5% !important;
+        margin-bottom: 5% !important;
+      }
+
+      .title-blockquote{
+        font-size: 30pt !important;
+        text-transform: none !important;
+        color: rgba(0, 0, 0, 0.8) !important;
+      }
+
+      .blockquote{
+        padding-left: 2% !important; 
+        margin-left: 5%  !important; 
+        border-left: 1px rgba(0, 0, 0, 0.8) solid !important;
+        font-size: 20pt !important;
+        color: rgba(0, 0, 0, 0.6) !important;
+      }
+
+      .blockquote-list{
+        border-left: none !important;
+      }
+      
+      table{
+        font-size: 15pt !important;
+        /* border: 1px solid #ddd !important; */
+        /* width: 100%; */
+      }
+
+      .table th {
+        background-color: rgb(32, 32, 32);
+        color: white;
+      }
+
+      .table tr:hover {background-color:#d6d6d6;}
+      
+      .table td{    
+        border: 1px solid  rgb(32, 32, 32, 0.5) !important;
+        text-align: left !important;
+      }
+
+      .table{
+        box-shadow: -2px 5px 20px #333 !important;
+      }
+
+      .wh{
+        color: white;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        
+        <!-- first slide -->
+        <section data-background="" >
+          <div class="title">
+            <h1> Projeto e Análise de Algoritmos </h1>
+             <div class="subtitle">
+               <span > Dijkstra </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- team -->
+        <section>
+          <table style="color:rgb(29, 35, 38); font-size:20pt;">
+            <tr>
+              <td>
+                <div class="panel">
+                  <p><span class="icons">&#xf2b9; </span> João Vítor do Nascimento </p>
+                  <p><span class="icons">&#xf19d; </span> Universidade Federal de Alagoas </p>
+                  <p><span class="icons">&#xf0e0; </span> joao.vitor@arapiraca.ufal.br </p>
+                </div>
+              </td>
+
+              <td>
+                <div class="panel">
+                  <p><span class="icons">&#xf2b9; </span> Matheus Rodrigues A. Melo</p>
+                  <p><span class="icons">&#xf19d; </span> Universidade Federal de Alagoas </p>
+                  <p><span class="icons">&#xf0e0; </span> matheus.melo@arapiraca.ufal.br </p>
+                </div>
+              </td>
+
+              <td>
+                <div class="panel">
+                  <p><span class="icons">&#xf2b9; </span> Jonas Ferreira da Silva </p>
+                  <p><span class="icons">&#xf19d; </span> Universidade Federal de Alagoas </p>
+                  <p><span class="icons">&#xf0e0; </span> jonas.silva@arapiraca.ufal.br </p>
+                </div>
+              </td>
+            </tr>
+          </table>
+
+        </section>
+
+        <section>
+          <h2 class="title-slide"> Como o Algoritmo funciona? </h2>
+        </section>
+
+        <section>
+          <img data-src="img/1.png" style="border: #ffffff Solid 10px;">
+        </section>
+        
+        <section>
+					<table>
+						<thead>
+							<tr>
+								<th>Vértice</th>
+								<th>Passo 1</th>
+                <th>Passo 2</th>
+                <th>Passo 3</th>
+                <th>Passo 4</th>
+                <th>Passo 5</th>
+                <th>Passo 6</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>A</td>
+								<td style="color: red;">0, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+							</tr>
+							<tr>
+								<td>B</td>
+								<td>4, A</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+							</tr>
+							<tr>
+								<td>C</td>
+                <td>2, A</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+								<td>D</td>
+								<td>∞</td>
+								<td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+								<td>E</td>
+								<td>∞</td>
+								<td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+								<td>F</td>
+								<td>∞</td>
+								<td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+							</tr>
+						</tbody>
+          </table>
+          <div class="blockquote">
+            <p>  Distância de B a A = 4 </p>
+          
+            <p>  Distância de C a A = 2 </p>
+         
+            <p>  Nós não adjacentes a A -> D, E, F = ∞ </p>
+          
+            <p> Nós não mais visitado * </p>
+          </div>
+        </section>
+        
+        <section>
+          <table>
+						<thead>
+							<tr>
+								<th>Vértice</th>
+								<th>Passo 1</th>
+                <th>Passo 2</th>
+                <th>Passo 3</th>
+                <th>Passo 4</th>
+                <th>Passo 5</th>
+                <th>Passo 6</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>A</td>
+								<td style="color: red;">0, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+							</tr>
+							<tr>
+								<td>B</td>
+								<td>4, A</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+							</tr>
+							<tr>
+								<td>C</td>
+                <td>2, A</td>
+                <td style="color: red;">2, A</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+								<td>D</td>
+								<td>∞</td>
+								<td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+								<td>E</td>
+								<td>∞</td>
+								<td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+								<td>F</td>
+								<td>∞</td>
+								<td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+							</tr>
+						</tbody>
+          </table>
+
+          <div class="blockquote">
+            <p> Caminho de menor custo A, C = 2 </p>
+          </div>
+        </section>
+
+        <section>
+          <img data-src="img/2.png" style="border: #ffffff Solid 10px;">
+        </section>
+
+        <section>
+          <table>
+						<thead>
+							<tr>
+								<th>Vértice</th>
+								<th>Passo 1</th>
+                <th>Passo 2</th>
+                <th>Passo 3</th>
+                <th>Passo 4</th>
+                <th>Passo 5</th>
+                <th>Passo 6</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>A</td>
+								<td style="color: red;">0, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+							</tr>
+							<tr>
+								<td>B</td>
+								<td>4, A</td>
+                <td>3, C</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+							</tr>
+							<tr>
+								<td>C</td>
+                <td>2, A</td>
+                <td style="color: red;">2, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+              </tr>
+              <tr>
+								<td>D</td>
+								<td>∞</td>
+								<td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+								<td>E</td>
+								<td>∞</td>
+								<td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+								<td>F</td>
+								<td>∞</td>
+								<td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+							</tr>
+						</tbody>
+          </table>
+          <div class="blockquote">
+            <p> A distância de B até A, com referência a C é (A, C) + (C, B) = 2 + 1 = 3 </p>
+          </div>
+        </section>
+
+        <section>
+          <table>
+						<thead>
+							<tr>
+								<th>Vértice</th>
+								<th>Passo 1</th>
+                <th>Passo 2</th>
+                <th>Passo 3</th>
+                <th>Passo 4</th>
+                <th>Passo 5</th>
+                <th>Passo 6</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>A</td>
+								<td style="color: red;">0, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+							</tr>
+							<tr>
+								<td>B</td>
+								<td>4, A</td>
+                <td>3, C</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+							</tr>
+							<tr>
+								<td>C</td>
+                <td>2, A</td>
+                <td style="color: red;">2, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+              </tr>
+              <tr>
+								<td>D</td>
+								<td>∞</td>
+								<td>10, C</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+								<td>E</td>
+								<td>∞</td>
+								<td>12, C</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+								<td>F</td>
+								<td>∞</td>
+								<td>∞</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+							</tr>
+						</tbody>
+          </table>
+          <div class="blockquote">
+            <p> A distância de D até A, com referência a C é (A, C) + (C, D) = 2 + 8 = 10 </p>
+            <p> A distância de E até A, com referência a C é (A, C) + (C, E) = 2 + 10 = 12 </p>
+            <p> Nós não adjacentes (A, F) = ∞ </p>
+          </div>
+
+        </section>
+
+        <section>
+          <table>
+						<thead>
+							<tr>
+								<th>Vértice</th>
+								<th>Passo 1</th>
+                <th>Passo 2</th>
+                <th>Passo 3</th>
+                <th>Passo 4</th>
+                <th>Passo 5</th>
+                <th>Passo 6</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>A</td>
+								<td style="color: red;">0, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+							</tr>
+							<tr>
+								<td>B</td>
+								<td>4, A</td>
+                <td>3, C</td>
+                <td style="color: red;">3, C</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+							</tr>
+							<tr>
+								<td>C</td>
+                <td>2, A</td>
+                <td style="color: red;">2, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+              </tr>
+              <tr>
+								<td>D</td>
+								<td>∞</td>
+								<td>10, C</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+								<td>E</td>
+								<td>∞</td>
+								<td>12, C</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+								<td>F</td>
+								<td>∞</td>
+								<td>∞</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+							</tr>
+						</tbody>
+          </table>
+          <div class="blockquote">
+            <p>Caminho de menor custo A, C = 3</p>
+          </div>
+
+        </section>
+        
+        <section>
+          <img data-src="img/3.png" style="border: #ffffff Solid 10px;">
+        </section>
+
+        <section>
+          <table>
+						<thead>
+							<tr>
+								<th>Vértice</th>
+								<th>Passo 1</th>
+                <th>Passo 2</th>
+                <th>Passo 3</th>
+                <th>Passo 4</th>
+                <th>Passo 5</th>
+                <th>Passo 6</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>A</td>
+								<td style="color: red;">0, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+							</tr>
+							<tr>
+								<td>B</td>
+								<td>4, A</td>
+                <td>3, C</td>
+                <td style="color: red;">3, C</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+							</tr>
+							<tr>
+								<td>C</td>
+                <td>2, A</td>
+                <td style="color: red;">2, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+              </tr>
+              <tr>
+								<td>D</td>
+								<td>∞</td>
+								<td>10, C</td>
+                <td>8, B</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+								<td>E</td>
+								<td>∞</td>
+								<td>12, C</td>
+                <td>12, C</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+								<td>F</td>
+								<td>∞</td>
+								<td>∞</td>
+                <td>∞</td>
+                <td></td>
+                <td></td>
+                <td></td>
+							</tr>
+						</tbody>
+          </table>
+          <div class="blockquote">
+            <p>A distância de D até A, com referência a B é (A, C) + (C, B) + (B, D) = 2 + 1 + 5 = 8</p>
+            <p> A distância de E até A, com referência a C é (A, C) + (C, E) = 2 + 10 = 12</p>
+          </div>
+        </section>
+
+        <section>
+          <table>
+						<thead>
+							<tr>
+								<th>Vértice</th>
+								<th>Passo 1</th>
+                <th>Passo 2</th>
+                <th>Passo 3</th>
+                <th>Passo 4</th>
+                <th>Passo 5</th>
+                <th>Passo 6</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>A</td>
+								<td style="color: red;">0, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+							</tr>
+							<tr>
+								<td>B</td>
+								<td>4, A</td>
+                <td>3, C</td>
+                <td style="color: red;">3, C</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+							</tr>
+							<tr>
+								<td>C</td>
+                <td>2, A</td>
+                <td style="color: red;">2, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+              </tr>
+              <tr>
+								<td>D</td>
+								<td>∞</td>
+								<td>10, C</td>
+                <td>8, B</td>
+                <td style="color: red;">8, B</td>
+                <td>*</td>
+                <td>*</td>
+              </tr>
+              <tr>
+								<td>E</td>
+								<td>∞</td>
+								<td>12, C</td>
+                <td>12, C</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+								<td>F</td>
+								<td>∞</td>
+								<td>∞</td>
+                <td>∞</td>
+                <td></td>
+                <td></td>
+                <td></td>
+							</tr>
+						</tbody>
+          </table>
+          <div class="blockquote">
+            <p>Caminho de menor custo (A, D) passando por B e C = 8</p>
+          </div>
+
+        </section>
+
+        <section>
+          <img data-src="img/4.png" style="border: #ffffff Solid 10px;">
+        </section>
+
+        <section>
+          <table>
+						<thead>
+							<tr>
+								<th>Vértice</th>
+								<th>Passo 1</th>
+                <th>Passo 2</th>
+                <th>Passo 3</th>
+                <th>Passo 4</th>
+                <th>Passo 5</th>
+                <th>Passo 6</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>A</td>
+								<td style="color: red;">0, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+							</tr>
+							<tr>
+								<td>B</td>
+								<td>4, A</td>
+                <td>3, C</td>
+                <td style="color: red;">3, C</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+							</tr>
+							<tr>
+								<td>C</td>
+                <td>2, A</td>
+                <td style="color: red;">2, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+              </tr>
+              <tr>
+								<td>D</td>
+								<td>∞</td>
+								<td>10, C</td>
+                <td>8, B</td>
+                <td style="color: red;">8, B</td>
+                <td>*</td>
+                <td>*</td>
+              </tr>
+              <tr>
+								<td>E</td>
+								<td>∞</td>
+								<td>12, C</td>
+                <td>12, C</td>
+                <td>10, D</td>
+                <td style="color: red;">10, D</td>
+                <td>*</td>
+              </tr>
+              <tr>
+								<td>F</td>
+								<td>∞</td>
+								<td>∞</td>
+                <td>∞</td>
+                <td>14, D</td>
+                <td></td>
+                <td></td>
+							</tr>
+						</tbody>
+          </table>
+          <div class="blockquote">
+            <p>Caminho de menor custo (A, E) é passando por B, C e D = 10</p>
+          </div>
+        </section>
+
+        <section> imagem da página 33, ajeitar e colocar </section>
+
+        <section>
+          <table>
+						<thead>
+							<tr>
+								<th>Vértice</th>
+								<th>Passo 1</th>
+                <th>Passo 2</th>
+                <th>Passo 3</th>
+                <th>Passo 4</th>
+                <th>Passo 5</th>
+                <th>Passo 6</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>A</td>
+								<td style="color: red;">0, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+							</tr>
+							<tr>
+								<td>B</td>
+								<td>4, A</td>
+                <td>3, C</td>
+                <td style="color: red;">3, C</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+							</tr>
+							<tr>
+								<td>C</td>
+                <td>2, A</td>
+                <td style="color: red;">2, A</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+                <td>*</td>
+              </tr>
+              <tr>
+								<td>D</td>
+								<td>∞</td>
+								<td>10, C</td>
+                <td>8, B</td>
+                <td style="color: red;">8, B</td>
+                <td>*</td>
+                <td>*</td>
+              </tr>
+              <tr>
+								<td>E</td>
+								<td>∞</td>
+								<td>12, C</td>
+                <td>12, C</td>
+                <td>10, D</td>
+                <td style="color: red;">10, D</td>
+                <td>*</td>
+              </tr>
+              <tr>
+								<td>F</td>
+								<td>∞</td>
+								<td>∞</td>
+                <td>∞</td>
+                <td>14, D</td>
+                <td>12, E</td>
+                <td style="color: red;">12, E</td>
+							</tr>
+						</tbody>
+          </table>
+          <div class="blockquote">
+            <p>Caminho de menor custo (A, F) é passando por B, C, D e E = 12</p>
+          </div>
+        </section>
+
+        <section>
+          <img data-src="img/4.png" style="border: #ffffff Solid 10px;">
+        </section>
+
+        <!-- biography  -->
+        <!-- <section> 
+            <section>
+                <h2 class="title-slide">Bibliografia</h2>
+            </section>
+        </section> -->
+      </div>
+    </div>
+
+    <script src="./revealjs/lib/js/head.min.js"></script>
+    <script src="./revealjs/js/reveal.js"></script>
+    <script type="text/javascript">
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        transition: 'slide'
+      })
+      //Natural Language Processing
+    </script>
+  </body>
+
+
+</html>
